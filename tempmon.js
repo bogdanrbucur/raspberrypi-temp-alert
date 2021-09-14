@@ -6,11 +6,14 @@ let systemEmail = process.env.SCRIPT_EMAIL_USER;
 let systemPass = process.env.SCRIPT_EMAIL_PASS;
 let alertedEmail = process.env.ALERTED_EMAIL;
 
+console.log(systemEmail);
+console.log(systemPass);
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: systemEmail,
-    pass: systemPass,
+    password: systemPass,
   },
 });
 
@@ -37,8 +40,8 @@ function getTemp() {
       if (err) {
         return console.log(err);
       }
-      console.log(`${(parseFloat(data)/1000).toFixed(1)} C`);
-      return `${(parseFloat(data)/1000).toFixed(1)} C`;
+      console.log(`${(parseFloat(data) / 1000).toFixed(1)} C`);
+      return `${(parseFloat(data) / 1000).toFixed(1)} C`;
     }
   );
 }
