@@ -1,0 +1,16 @@
+{
+  "name": "rasp-temp-alert",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tempmon.js",
+  "scripts": {
+    "start": "node tempmon.js"
+  },
+  "keywords": [],
+  "author": "Bogdan Bucur",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "nodemailer": "^6.6.3"
+  }
+}
