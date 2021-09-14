@@ -30,6 +30,7 @@ function getTemp() {
         return console.log(err);
       }
       console.log(`${(parseFloat(data) / 1000).toFixed(1)} C`);
+      // Format the value from the file
       return (parseFloat(data) / 1000).toFixed(1);
     }
   );
