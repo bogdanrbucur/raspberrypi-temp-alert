@@ -3,21 +3,26 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv").config();
 
 // Environment variables stored in .env
-let systemEmail = process.env.SCRIPT_EMAIL_USER;
-let systemPass = process.env.SCRIPT_EMAIL_PASS;
-let alertedEmail = process.env.ALERTED_EMAIL;
+const systemEmail = process.env.SCRIPT_EMAIL_USER;
+const systemPass = process.env.SCRIPT_EMAIL_PASS;
+const alertedEmail = process.env.ALERTED_EMAIL;
 
 // Define your own thresholds
-let highTemp = 60;
-let criticalTemp = 78;
+const highTemp = 55;
+const criticalTemp = 78;
 
 // Login to email service
 const transporter = nodemailer.createTransport({
-  service: "smtp.gmail.com",
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: systemEmail,
     password: systemPass,
   },
+  logger: true,
+  debug: false,
 });
 
 // Function to read the temperature from the file
