@@ -9,14 +9,14 @@ let alertedEmail = process.env.ALERTED_EMAIL;
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'systemalert9@gmail.com',
-    pass: 'notAstockpassword'
+    user: systemEmail,
+    pass: systemPass
   }
 });
 
 const mailOptions = {
-  from: 'systemalert9@gmail.com',
-  to: 'myfriend@yahoo.com',
+  from: systemEmail,
+  to: alertedEmail,
   subject: 'Raspberry Pi Temp. Alert',
   text: 'CPU temp. above'
 };
