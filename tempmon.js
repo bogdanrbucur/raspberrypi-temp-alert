@@ -13,7 +13,7 @@ let criticalTemp = 78;
 
 // Login to email service
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: "smtp.gmail.com",
   auth: {
     user: systemEmail,
     password: systemPass,
@@ -21,27 +21,30 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to read the temperature from the file
-function getTemp() {
-  fs.readFile(
-    "/sys/class/thermal/thermal_zone0/temp",
-    "utf8",
-    function (err, data) {
-      if (err) {
-        return console.log(err);
+async function getTemp() {
+  return new Promise(async (resolve, reject) => {
+    fs.readFile(
+      "/sys/class/thermal/thermal_zone0/temp",
+      "utf8",
+      function (err, data) {
+        if (err) {
+          reject(err);
+        }
+        // Format the value from the file
+        resolve((parseFloat(data) / 1000).toFixed(1));
       }
-      console.log(`${(parseFloat(data) / 1000).toFixed(1)} C`);
-      // Format the value from the file
-      return (parseFloat(data) / 1000).toFixed(1);
-    }
-  );
+    );
+  });
 }
 
-function tempMon() {
+async function tempMon() {
   // Get the CPU temperature
-  let temp = getTemp();
+  let temp = await getTemp();
 
   // Check if it's critical
   if (temp > criticalTemp) {
+    console.log(`temp is critical ${temp}`);
+
     // Build the email
     const mailOptions = {
       from: systemEmail,
