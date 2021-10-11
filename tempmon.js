@@ -6,14 +6,13 @@ const OAuth2 = google.auth.OAuth2;
 
 // Environment variables stored in .env
 const systemEmail = process.env.SCRIPT_EMAIL_USER;
-const systemPass = process.env.SCRIPT_EMAIL_PASS;
 const alertedEmail = process.env.ALERTED_EMAIL;
 const refreshToken = process.env.REFRESH_TOKEN;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 // Define your own thresholds
-const highTemp = 55;
+const highTemp = 68;
 const criticalTemp = 78;
 
 // OAuth2 info
@@ -39,7 +38,7 @@ const transporter = nodemailer.createTransport({
     refreshToken: refreshToken,
     accessToken: accessToken,
   },
-  logger: true,
+  logger: false,
 });
 
 // Function to read the temperature from the file
@@ -63,11 +62,9 @@ async function tempMon() {
   // Get the CPU temperature
   let temp = await getTemp();
 
-  console.log(`CPU temp: ${temp} C`);
-
   // Check if it's critical
   if (temp > criticalTemp) {
-    console.log(`temp is critical ${temp}`);
+    console.log(`CPU temp critical ${temp} C.`);
 
     // Build the email
     const mailOptions = {
@@ -89,7 +86,7 @@ async function tempMon() {
 
     // Check if the temperature is high
   } else if (temp > highTemp) {
-    console.log(`temp is high ${temp}`);
+    console.log(`CPU temp high ${temp} C.`);
 
     // Build the email
     const mailOptions = {
