@@ -28,18 +28,22 @@ oauth2Client.setCredentials({
 const accessToken = oauth2Client.getAccessToken();
 
 // Login to email service
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    type: "OAuth2",
-    user: "systemalert9@gmail.com",
-    clientId: clientId,
-    clientSecret: clientSecret,
-    refreshToken: refreshToken,
-    accessToken: accessToken,
-  },
-  logger: false,
-});
+try {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: "systemalert9@gmail.com",
+      clientId: clientId,
+      clientSecret: clientSecret,
+      refreshToken: refreshToken,
+      accessToken: accessToken,
+    },
+    logger: false,
+  });
+} catch (err) {
+  console.log(err);
+}
 
 // Function to read the temperature from the file
 async function getTemp() {
@@ -57,53 +61,59 @@ async function getTemp() {
     );
   });
 }
-
 async function tempMon() {
-  // Get the CPU temperature
-  let temp = await getTemp();
+  try {
+    // Get the CPU temperature
+    let temp = await getTemp();
 
-  // Check if it's critical
-  if (temp > criticalTemp) {
-    console.log(`CPU temp critical ${temp} C.`);
+    console.log(`CPU temp: ${temp} C.`);
 
-    // Build the email
-    const mailOptions = {
-      from: systemEmail,
-      to: alertedEmail,
-      subject: "Warning! Raspberry Pi temp. critical",
-      text: `CPU temperature critical: ${temp} C.`,
-    };
-    // Send the email
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+    // Check if it's critical
+    if (temp > criticalTemp) {
+      console.log(`CPU temp critical ${temp} C.`);
 
-    // Could also shut down the Raspberry Pi here
+      // Build the email
+      const mailOptions = {
+        from: systemEmail,
+        to: alertedEmail,
+        subject: "Warning! Raspberry Pi temperature critical",
+        text: `CPU temperature critical: ${temp} C.`,
+      };
+      // Send the email
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+      //
+      // Could also shut down the Raspberry Pi here or do some other stuff
+      //
 
-    // Check if the temperature is high
-  } else if (temp > highTemp) {
-    console.log(`CPU temp high ${temp} C.`);
+      // Check if the temperature is high
+    } else if (temp > highTemp) {
+      console.log(`CPU temp high ${temp} C.`);
 
-    // Build the email
-    const mailOptions = {
-      from: systemEmail,
-      to: alertedEmail,
-      subject: "Warning! Raspberry Pi temp. high",
-      text: `CPU temperature high: ${temp} C.`,
-    };
+      // Build the email
+      const mailOptions = {
+        from: systemEmail,
+        to: alertedEmail,
+        subject: "Warning! Raspberry Pi temperature high",
+        text: `CPU temperature high: ${temp} C.`,
+      };
 
-    // Send the email
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
+      // Send the email
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+      });
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 
