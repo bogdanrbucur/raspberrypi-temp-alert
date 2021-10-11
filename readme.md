@@ -14,4 +14,4 @@ Prerequisites:
 
   run `npm i` in the script folder
 - Rename .`env.example` to `.env` and update it using client ID, client secret and refresh token obtained using above instructions.
-- Add the job to crontab using `sudo crontab -e` and adding the line `*/30 * * * * node /home/user/app/tempmon.js`
+- Add the job to crontab using `sudo crontab -e` and adding the line `*/30 * * * * node /home/user/app/tempmon.js` to run the job every 30 minutes. Don't forget to add a blank line in crontab at the end
