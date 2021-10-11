@@ -1,28 +1,45 @@
 const fs = require("fs");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv").config();
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
 // Environment variables stored in .env
 const systemEmail = process.env.SCRIPT_EMAIL_USER;
 const systemPass = process.env.SCRIPT_EMAIL_PASS;
 const alertedEmail = process.env.ALERTED_EMAIL;
+const refreshToken = process.env.REFRESH_TOKEN;
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
 
 // Define your own thresholds
 const highTemp = 55;
 const criticalTemp = 78;
 
+// OAuth2 info
+const oauth2Client = new OAuth2(
+  clientId, // ClientID
+  clientSecret, // Client Secret
+  "https://developers.google.com/oauthplayground" // Redirect URL
+);
+
+oauth2Client.setCredentials({
+  refresh_token: refreshToken,
+});
+const accessToken = oauth2Client.getAccessToken();
+
 // Login to email service
 const transporter = nodemailer.createTransport({
   service: "gmail",
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
   auth: {
-    user: systemEmail,
-    password: systemPass,
+    type: "OAuth2",
+    user: "systemalert9@gmail.com",
+    clientId: clientId,
+    clientSecret: clientSecret,
+    refreshToken: refreshToken,
+    accessToken: accessToken,
   },
   logger: true,
-  debug: false,
 });
 
 // Function to read the temperature from the file
@@ -45,6 +62,8 @@ async function getTemp() {
 async function tempMon() {
   // Get the CPU temperature
   let temp = await getTemp();
+
+  console.log(`CPU temp: ${temp} C`);
 
   // Check if it's critical
   if (temp > criticalTemp) {
