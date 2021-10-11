@@ -11,5 +11,6 @@ Prerequisites:
 - Node.js:
   `sudo apt install nodejs`
 - NPM dependencies: [nodemailer](), [googleapis](), [dotenv]()
+
   run `npm i` in the script folder
 - Rename .`env.example` to `.env` and update it using client ID, client secret and refresh token obtained using above instructions.
