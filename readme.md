@@ -1,6 +1,6 @@
 # RaspberryPi Temperature Alert
 
-Simple Node.js script to check the CPU temperature and send an email alert if above set thresholds.
+Simple Node.js script to check the Raspberry Pi's CPU temperature and send an email alert if above set thresholds. The script and instructions provided are for using Gmail with OAuth2. I found no other way to send emails with Gmail, but using this script and provided instructions to set up OAuth2 works.
 
 Inspired by Leonardo Gentile's [Python script](https://gist.github.com/LeonardoGentile/7a5330e6bc55860feee5d0dd79e7965d) for the same thing.
 
@@ -10,7 +10,7 @@ Prerequisites:
 
 - Node.js:
   `sudo apt install nodejs`
-- NPM dependencies: [nodemailer](), [googleapis](), [dotenv]()
+- NPM dependencies: [nodemailer](https://nodemailer.com/smtp/oauth2/), [googleapis](https://www.npmjs.com/package/googleapis), [dotenv](https://www.npmjs.com/package/dotenv)
 
   run `npm i` in the script folder
 - Rename .`env.example` to `.env` and update it using client ID, client secret and refresh token obtained using above instructions.
