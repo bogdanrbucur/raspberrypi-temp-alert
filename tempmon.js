@@ -1,7 +1,8 @@
 const fs = require("fs");
 const nodemailer = require("nodemailer");
 const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, './.env') });
+// Load .env from current folder, no matter the cwd
+require("dotenv").config({ path: path.resolve(__dirname, './.env') }); 
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
