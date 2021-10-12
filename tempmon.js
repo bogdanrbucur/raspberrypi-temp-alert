@@ -14,7 +14,7 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 // Define your own thresholds
-const highTemp = 68;
+const highTemp = 50;
 const criticalTemp = 78;
 
 // OAuth2 info
@@ -35,7 +35,7 @@ try {
     service: "gmail",
     auth: {
       type: "OAuth2",
-      user: "systemalert9@gmail.com",
+      user: systemEmail,
       clientId: clientId,
       clientSecret: clientSecret,
       refreshToken: refreshToken,
