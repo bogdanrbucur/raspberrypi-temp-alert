@@ -13,5 +13,6 @@ Prerequisites:
 - NPM dependencies: [nodemailer](https://nodemailer.com/smtp/oauth2/), [googleapis](https://www.npmjs.com/package/googleapis), [dotenv](https://www.npmjs.com/package/dotenv)
 
   run `npm i` in the script folder
-- Rename .`env.example` to `.env` and update it using client ID, client secret and refresh token obtained using above instructions.
-- Add the job to crontab using `sudo crontab -e` and adding the line `*/30 * * * * node /home/user/app/tempmon.js` to run the job every 30 minutes. Don't forget to add a blank line in crontab at the end
+- Rename .`env.example` to `.env` and update it using client ID, client secret and refresh token obtained using above instructions
+- Change the path in the Bash script `tempmon.sh` to match your absolute app path. Leave the Node path as is unless your distro keeps Node somewhere else. This is the path on Ubuntu ARM64
+- Add the job to crontab using `sudo crontab -e` and adding the line `*/30 * * * * /home/ubuntu/_projects/rasp-temp-alert/tempmon.sh` or whatever your path is, to run script every 30 minutes. Don't forget to add a blank line in crontab at the end
