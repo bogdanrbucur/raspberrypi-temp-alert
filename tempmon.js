@@ -14,8 +14,8 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
 // Define your own thresholds
-const highTemp = 50;
-const criticalTemp = 78;
+const highTemp = 67;
+const criticalTemp = 75;
 
 // OAuth2 info
 const oauth2Client = new OAuth2(
