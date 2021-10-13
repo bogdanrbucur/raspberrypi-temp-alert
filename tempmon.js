@@ -2,7 +2,7 @@ const fs = require("fs");
 const nodemailer = require("nodemailer");
 const path = require("path");
 // Load .env from current folder, no matter the cwd
-require("dotenv").config({ path: path.resolve(__dirname, './.env') }); 
+require("dotenv").config({ path: path.resolve(__dirname, "./.env") });
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 
@@ -30,22 +30,18 @@ oauth2Client.setCredentials({
 const accessToken = oauth2Client.getAccessToken();
 
 // Login to email service
-try {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user: systemEmail,
-      clientId: clientId,
-      clientSecret: clientSecret,
-      refreshToken: refreshToken,
-      accessToken: accessToken,
-    },
-    logger: false,
-  });
-} catch (err) {
-  console.log(err);
-}
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: systemEmail,
+    clientId: clientId,
+    clientSecret: clientSecret,
+    refreshToken: refreshToken,
+    accessToken: accessToken,
+  },
+  logger: false,
+});
 
 // Function to read the temperature from the file
 async function getTemp() {
